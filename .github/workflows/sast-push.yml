@@ -1,4 +1,4 @@
-name: "SAST"
+name: "SAST_PUSH"
 on:
   push:
     branches:
@@ -24,7 +24,7 @@ jobs:
       COVHOME: /home/hugues/cov-analysis-linux64-2021.03
       BLDCMD: mvn clean compile
       CHECKERS: --all
- 
+      GATE_VIEW: commiter-test
     steps:
     - uses: AutoModality/action-clean@v1
     - uses: actions/checkout@v2
@@ -48,5 +48,5 @@ jobs:
          sarif_file: cov-findings-sarif.json
     - name: Coverity Quality Gate
       run: |
-        curl -fLsSk --user $COV_USER:$COVERITY_PASSPHRASE $COV_URL/api/viewContents/issues/v1/commiter-test?projectId=$COVERITY_PROJECT > results.json
+        curl -fLsSk --user $COV_USER:$COVERITY_PASSPHRASE $COV_URL/api/viewContents/issues/v1/$GATE_VIEW?projectId=$COVERITY_PROJECT > results.json
         if [ $(cat results.json | jq .viewContentsV1.totalRows) -ne 0 ]; then cat results.json | jq .viewContentsV1.rows; exit 1; fi

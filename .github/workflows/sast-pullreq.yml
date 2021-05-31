@@ -16,6 +16,7 @@ jobs:
     - id: changeset
       name: Get Pull Request Changeset
       uses: jitterbit/get-changed-files@v1
+      continue-on-error: true
       if: ${{ github.event_name == 'pull_request' }}
  
     - name: Coverity Incremental Scan
