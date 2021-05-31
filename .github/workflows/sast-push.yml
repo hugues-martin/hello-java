@@ -13,7 +13,6 @@ on:
       - 'LICENSE'
       - 'docs/**'
 
-
 jobs:
   Coverity:
     runs-on: self-hosted
